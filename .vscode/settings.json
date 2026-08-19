@@ -1,0 +1,15 @@
+{
+  "editor.wordWrap": "on",
+  "chat.tools.terminal.autoApprove": {
+    "cd eu-health-data-api && ./_build.sh build": true,
+    "cd eu-health-data-api && ./_build.sh notx": true,
+    "cd eu-health-data-api && ./_build.sh update": true,
+    "./_build.sh build": true,
+    "./_build.sh notx": true,
+    "bash ./.github/skills/ig-qa-check/scripts/ig-qa-check.sh": true,
+    "bash ./.github/skills/branch-context-management/scripts/resolve-branch-context.sh": true,
+    "bash ./.github/skills/jira-sync/scripts/sync-if-newer.sh": true,
+    "cat eu-health-data-api/ig.ini": true,
+    "java -version": true
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "reference_repos": [
+    "../hl7eu-imaging-ai-implementer",
+    "../hl7eu-imaging-manifest-ai-implementer"
+  ],
+  "compare_dirs": [
+    ".github/skills",
+    ".github/agents",
+    ".github/instructions"
+  ],
+  "//": "Assets that are domain-specific to the imaging/DICOM/MADO/EHDS-imaging or multi-version R4/R5 IGs. These are intentionally NOT mirrored into this composition/transport IG and are reported as EXCLUDED, not MISSING.",
+  "exclude_names": [
+    "create-dicom-tables",
+    "create-dicom-modules-tables",
+    "create-dicom-sr-tids-tables",
+    "mado-pdf-to-md",
+    "extract-mado-ms-obligations",
+    "generate-ehds-mapping-pages",
+    "sushi-r4-r5-triage",
+    "ig-liquid-alias-coverage-check",
+    "ig-preprocess-build-check",
+    "compile-spec-and-check",
+    "scope-resource-alignment-check",
+    "contributors-page-generate",
+    "functional-requirements-page",
+    "mado-volume2-page",
+    "imaging-manifest-fork",
+    "hl7eu-imaging-fork",
+    "repo-layout",
+    "current-status-page",
+    "build-igs.agent.md",
+    "query-meeting-minutes.agent.md",
+    "dicom-extraction-workflow.agent.md",
+    "dicom-modules-extractor.agent.md",
+    "dicom-modules-reviewer.agent.md",
+    "dicom-spec-expert.agent.md",
+    "dicom-sr-tid-extractor.agent.md",
+    "dicom-sr-tid-reviewer.agent.md"
+  ],
+  "//normalize": "Reference-repo path tokens rewritten to their local equivalents before diffing, so fork-name/layout differences are not reported as divergences.",
+  "normalize_tokens": {
+    "hl7eu-imaging-manifest-ai-implementer": "euridice-eu-health-data-api-ai-implementer",
+    "hl7eu-imaging-ai-implementer": "euridice-eu-health-data-api-ai-implementer",
+    "imaging-manifest-fork": "eu-health-data-api",
+    "hl7eu-imaging-fork": "eu-health-data-api"
+  }
+}

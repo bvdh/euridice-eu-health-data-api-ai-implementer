@@ -1,0 +1,4 @@
+node_modules/
+*.xlsx
+jira-export.html
+.jira-last-sync
