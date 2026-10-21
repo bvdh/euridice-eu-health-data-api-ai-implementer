@@ -238,8 +238,8 @@ be refined for readability, but the content, normative strength, and traceabilit
 ## Actors And Responsibilities
 
 - **AUTH-ACTOR-000:** Define separate generic FHIR `ActorDefinition` resources for the IG-wide
-  **EU Authorization Client**, **Authentication Service**, **EU Authorization Server**, and
-  **EU Authorization Resource Server** roles. The Authentication Service is IG-defined, not a new
+  **Health Data API Authorization Client**, **Authentication Service**, **Health Data API Authorization Server**, and
+  **Health Data API Resource Server** roles. The Authentication Service is IG-defined, not a new
   formal IUA or SMART actor. Use these actors to state shared responsibilities throughout the IG.
 - **AUTH-ACTOR-000A:** The generic ActorDefinition descriptions SHALL define the shared role
   responsibilities and link to the corresponding IHE IUA and SMART ActorDefinitions and the
@@ -247,11 +247,11 @@ be refined for readability, but the content, normative strength, and traceabilit
   has no formal IUA or SMART actor counterpart and links to the generic Authorization Server and
   grouping requirements instead. The generic actors do not
   themselves claim IUA, SMART, or dual conformance and do not replace protocol-specific roles.
-- **AUTH-ACTOR-001:** The EU Authorization Client obtains an access token from the selected
+- **AUTH-ACTOR-001:** The Health Data API Authorization Client obtains an access token from the selected
   Authorization Server, requests least-privilege authorization as applicable, and presents the
-  resulting bearer access token to the EU Authorization Resource Server. Client authentication,
+  resulting bearer access token to the Health Data API Resource Server. Client authentication,
   grants, scopes, discovery, and launch context depend on the selected environment and protocol.
-- **AUTH-ACTOR-002:** The EU Authorization Server applies the authentication and authorization
+- **AUTH-ACTOR-002:** The Health Data API Authorization Server applies the authentication and authorization
   requirements of the selected flow, constrains requested scopes to authorized scopes as applicable,
   applies issuance policy, and issues access tokens. Client assertion validation and replay
   prevention apply when the selected flow uses client assertions. Where user authentication is
@@ -259,13 +259,13 @@ be refined for readability, but the content, normative strength, and traceabilit
   formal IUA or SMART conformance obligations.
 - **AUTH-ACTOR-002A:** The Authentication Service authenticates end users, directly or using a
   Wallet or upstream identity provider, and supplies a trusted authentication result. Define an
-  optional Authentication Service / EU Authorization Server grouping. The interface between
+  optional Authentication Service / Health Data API Authorization Server grouping. The interface between
   separately deployed actors is deployment-defined; grouping alone does not specify a transaction,
   require an ID token or token exchange, or establish independent interoperability. Keep user
   authentication distinct from client authentication and API authorization. Backend Services does
   not require runtime end-user authentication. Authorization Server / Resource Server co-location
-  is a separate optional deployment choice. Generic EU role names do not imply EU-operated services.
-- **AUTH-ACTOR-003:** The EU Authorization Resource Server validates or introspects access tokens as
+  is a separate optional deployment choice. Generic Health Data API role names do not imply EU-operated services.
+- **AUTH-ACTOR-003:** The Health Data API Resource Server validates or introspects access tokens as
   applicable, including activity, expiry, issuer/signature, audience or resource binding, and granted
   authorization, and enforces request/claim consistency and local access policy.
 - **AUTH-ACTOR-004:** Do not assign client-assertion validation to a standalone Resource Server or
