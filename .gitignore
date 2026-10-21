@@ -1,2 +1,4 @@
 # The IG fork is an independent git repository; never commit it into the outer repo.
 eu-health-data-api/
+# Branch-specific fork worktrees created by branch-context-management.
+eu-health-data-api-*/

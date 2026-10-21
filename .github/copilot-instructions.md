@@ -14,6 +14,7 @@ Use these instructions when working in this repository.
 
 - Use the most specific skill in `.github/skills/*/SKILL.md` for the requested task.
 - Check available agents in `.github/agents/*` before orchestrating multi-step work.
+- For any question about IHE-IUA, including actors, OAuth grant flows, user authentication, client authentication, access tokens, scopes, claims, audit context, or comparisons with SMART on FHIR, use the `IHE-IUA-expert` agent. This applies even when the question also involves MHD or another protected REST profile.
 - For IG structure and authoring context, reference `eu-health-data-api/README.md` and `eu-health-data-api/scope.md`.
 
 ## Canonical IG Command Order
