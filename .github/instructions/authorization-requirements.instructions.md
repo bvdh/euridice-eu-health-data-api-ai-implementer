@@ -237,17 +237,37 @@ be refined for readability, but the content, normative strength, and traceabilit
 
 ## Actors And Responsibilities
 
-- **AUTH-ACTOR-000:** Represent every IHE IUA and SMART App Launch actor or conformance role selected
-  by this IG as a separate FHIR `ActorDefinition` resource. Introduce and link those ActorDefinitions
-  from the corresponding **IHE IUA** and **SMART App Launch** sections of `authorization.md`.
-- **AUTH-ACTOR-001:** The Authorization Client authenticates to the Authorization Server, requests
-  least-privilege scopes, and presents the resulting bearer access token to the Resource Server.
-- **AUTH-ACTOR-002:** The Authorization Server authenticates the client, validates its client
-  assertion, applies issuance policy, constrains requested scopes to authorized scopes, prevents
-  assertion replay, and issues access tokens.
-- **AUTH-ACTOR-003:** The Resource Server validates access-token activity, expiry, issuer/signature or
-  introspection result, audience or resource binding where applicable, granted scope, request/claim
-  consistency, and local access policy.
+- **AUTH-ACTOR-000:** Define separate generic FHIR `ActorDefinition` resources for the IG-wide
+  **EU Authorization Client**, **Authentication Service**, **EU Authorization Server**, and
+  **EU Authorization Resource Server** roles. The Authentication Service is IG-defined, not a new
+  formal IUA or SMART actor. Use these actors to state shared responsibilities throughout the IG.
+- **AUTH-ACTOR-000A:** The generic ActorDefinition descriptions SHALL define the shared role
+  responsibilities and link to the corresponding IHE IUA and SMART ActorDefinitions and the
+  applicable `authorization.md` sections for protocol-specific details. The Authentication Service
+  has no formal IUA or SMART actor counterpart and links to the generic Authorization Server and
+  grouping requirements instead. The generic actors do not
+  themselves claim IUA, SMART, or dual conformance and do not replace protocol-specific roles.
+- **AUTH-ACTOR-001:** The EU Authorization Client obtains an access token from the selected
+  Authorization Server, requests least-privilege authorization as applicable, and presents the
+  resulting bearer access token to the EU Authorization Resource Server. Client authentication,
+  grants, scopes, discovery, and launch context depend on the selected environment and protocol.
+- **AUTH-ACTOR-002:** The EU Authorization Server applies the authentication and authorization
+  requirements of the selected flow, constrains requested scopes to authorized scopes as applicable,
+  applies issuance policy, and issues access tokens. Client assertion validation and replay
+  prevention apply when the selected flow uses client assertions. Where user authentication is
+  required, it relies on an acceptable Authentication Service result without transferring its
+  formal IUA or SMART conformance obligations.
+- **AUTH-ACTOR-002A:** The Authentication Service authenticates end users, directly or using a
+  Wallet or upstream identity provider, and supplies a trusted authentication result. Define an
+  optional Authentication Service / EU Authorization Server grouping. The interface between
+  separately deployed actors is deployment-defined; grouping alone does not specify a transaction,
+  require an ID token or token exchange, or establish independent interoperability. Keep user
+  authentication distinct from client authentication and API authorization. Backend Services does
+  not require runtime end-user authentication. Authorization Server / Resource Server co-location
+  is a separate optional deployment choice. Generic EU role names do not imply EU-operated services.
+- **AUTH-ACTOR-003:** The EU Authorization Resource Server validates or introspects access tokens as
+  applicable, including activity, expiry, issuer/signature, audience or resource binding, and granted
+  authorization, and enforces request/claim consistency and local access policy.
 - **AUTH-ACTOR-004:** Do not assign client-assertion validation to a standalone Resource Server or
   access-token enforcement to the Authorization Client.
 - **AUTH-ACTOR-005:** Describe internal and external Authorization Server deployments consistently.
@@ -407,10 +427,10 @@ be refined for readability, but the content, normative strength, and traceabilit
   SMART/IUA precedence, discovery requirements, grant and client assertion behavior, token semantics,
   scopes, enforcement, errors, deployment variants, the required page structure, and the
   environment-specific recommendations and requirements.
-- **AUTH-PLACE-002:** `input/pagecontent/actors.md` and `input/fsh/Actors.fsh` own role boundaries,
-  actor groupings, transaction participation, and internal/external Authorization Server grouping.
-  They define the protocol-role ActorDefinitions and link to detailed protocol rules rather than
-  duplicating them.
+- **AUTH-PLACE-002:** `input/pagecontent/actors.md` and `input/fsh/Actors.fsh` own the generic EU
+  authorization-role boundaries, protocol-role mappings, actor groupings, transaction participation,
+  and internal/external Authorization Server grouping. They define the generic and protocol-role
+  ActorDefinitions and link to detailed protocol rules rather than duplicating them.
 - **AUTH-PLACE-003:** `input/pagecontent/capability-discovery.md` owns the distinction and relationship
   between FHIR `/metadata` discovery and SMART `.well-known` discovery.
 - **AUTH-PLACE-004:** `input/pagecontent/resource-access.md` owns selectable clinical resource access,
@@ -427,8 +447,11 @@ be refined for readability, but the content, normative strength, and traceabilit
   `input/pagecontent/CapabilityStatement-<id>-intro.md` file. Do not move computable
   `rest.documentation`, `rest.security.description`, interaction, resource, scope, or grouping
   declarations from FSH into the intro note.
-- **AUTH-PLACE-007:** ActorDefinitions own actor identity and links to applicable capabilities; they
-  do not duplicate detailed OAuth protocol requirements.
+- **AUTH-PLACE-007:** ActorDefinitions own actor identity, shared or protocol-specific role
+  responsibilities, and links to applicable capabilities. Generic EU authorization ActorDefinitions
+  define the shared IG requirements and link to the selected IUA/SMART ActorDefinitions and
+  `authorization.md` sections for further protocol details; they do not duplicate detailed OAuth
+  requirements or establish protocol conformance by themselves.
 - **AUTH-PLACE-008:** Worked examples illustrate existing requirements completely and accurately but
   do not introduce additional normative behavior.
 - **AUTH-PLACE-009:** `doc/ehds-auth-summary.md` owns the detailed EHDS evidence inventory used by the
@@ -468,9 +491,11 @@ be refined for readability, but the content, normative strength, and traceabilit
 - **AUTH-CHECK-012:** Environment-specific statements use normative language consistently: MyHealth@EU
   and National Interoperability Infrastructure are recommendations, while Wellness Applications and
   Healthcare Provider environments require SMART (`SHALL`).
-- **AUTH-CHECK-013:** Every IUA and SMART role selected by the IG has exactly one discoverable
+- **AUTH-CHECK-013:** The four generic authentication and authorization roles each have exactly one discoverable
+  ActorDefinition and are consistently named and mapped across narrative, diagrams, groupings, and
+  CapabilityStatements. Every IUA and SMART role selected by the IG also has exactly one discoverable
   ActorDefinition, is introduced in the corresponding `authorization.md` section, and has consistent
-  names and responsibilities in narrative, diagrams, groupings, and CapabilityStatements.
+  names and responsibilities across those artifacts.
 - **AUTH-CHECK-014:** Provider actor groupings and server CapabilityStatement security descriptions
   include the applicable Resource Server role and do not require Authorization Server grouping.
 - **AUTH-CHECK-015:** Every CapabilityStatement security section maps its use cases and environments
@@ -508,9 +533,11 @@ be refined for readability, but the content, normative strength, and traceabilit
 - **AUTH-ACCEPT-006:** The rendered authorization page contains the required ordered sections, all
   environment subsections and flows, the EHDS article summary and detail reference, and the maintained
   SMART/IUA comparison table.
-- **AUTH-ACCEPT-007:** Generated ActorDefinition resources exist for all selected IUA and SMART roles;
-  generated provider definitions and CapabilityStatements group only with the applicable Resource
-  Server role by default, and Authorization Server remains independent.
+- **AUTH-ACCEPT-007:** Generated ActorDefinition resources exist for the four generic authentication
+  and authorization roles and all selected IUA and SMART roles. Generic role descriptions link to
+  protocol-specific details without implying conformance. Generated provider definitions and
+  CapabilityStatements group only with the applicable Resource Server role by default, and
+  Authorization Server remains independent.
 - **AUTH-ACCEPT-008:** Every generated CapabilityStatement preserves the scopes applicable to each
   selected mode, labels SMART resource scopes and IUA MHD transaction scopes distinctly, and has a
   CORS declaration consistent with its supported deployment modes. Abstract requirement statements
