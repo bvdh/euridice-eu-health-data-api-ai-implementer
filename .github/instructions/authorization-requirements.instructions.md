@@ -128,15 +128,18 @@ be refined for readability, but the content, normative strength, and traceabilit
 - **AUTH-PAGE-COMPARE-003:** Conclude that SMART App Launch best suits situations requiring:
   - context-aware application launch; or
   - authorization endpoint discovery based on the FHIR server URL.
-- **AUTH-PAGE-COMPARE-004:** Conclude that IHE IUA best suits situations requiring:
+- **AUTH-PAGE-COMPARE-004:** Conclude that IHE IUA best suits preconfigured system-to-system
+  situations requiring:
   - communication in established environments where actor locations, including the Authorization
     Server, are preconfigured; or
-  - user and patient information to be carried with the access token.
-- **AUTH-PAGE-COMPARE-005:** State that this specification recommends or requires one of these
-  specifications for each environment. Future versions may explore hybrid deployments.
-- **AUTH-PAGE-COMPARE-006:** State that SMART App Launch deployments SHOULD use IUA-formatted JWT
-  access tokens. Define or reference the exact selected IUA JWT claim profile so this recommendation
-  is implementable, and do not imply full IUA protocol conformance from token formatting alone.
+  - user and patient information to be carried in an access token using the IUA JWT Token Option.
+- **AUTH-PAGE-COMPARE-005:** State that this specification selects one authorization profile for
+  each concrete Resource Server endpoint. A deployment may use different profiles on distinct
+  endpoints; future versions may explore same-endpoint hybrid deployments.
+- **AUTH-PAGE-COMPARE-006:** Do not require or recommend the IUA JWT Token Option for SMART
+  deployments. The option applies when selected for an IUA endpoint; any equivalent claim profile
+  for SMART requires separate specification of issuance, validation, and semantics. Token format
+  or claim names alone do not establish protocol conformance.
 
 ### Environment-Specific Requirements
 
@@ -146,8 +149,14 @@ be refined for readability, but the content, normative strength, and traceabilit
 - **AUTH-PAGE-ENV-002:** For **MyHealth@EU**, recommend IHE IUA and state that this specification gives
   no additional explicit authorization guidance.
 - **AUTH-PAGE-ENV-003:** For the **National Interoperability Infrastructure**, recommend IHE IUA
-  because it supports carrying user and patient context or claims. Use IUA terminology accurately;
-  do not describe those token claims as OAuth scopes.
+  for preconfigured system-to-system endpoints when national policy requires the IUA JWT claim
+  profile or the corresponding IUA transaction integration; this is not a blanket recommendation
+  for every endpoint. Interactive HDAS/HPAS access uses SMART App Launch under AUTH-PAGE-ENV-004
+  or AUTH-PAGE-ENV-005, as applicable. A system-to-system Resource Server endpoint MAY instead
+  select SMART Backend Services when all Backend Services applicability conditions are met. Each
+  concrete endpoint selects one security service; do not imply same-endpoint dual conformance
+  without a separately defined hybrid profile. IUA JWT claims are token context, not OAuth scopes,
+  and are not an automatically portable SMART token profile.
 - **AUTH-PAGE-ENV-004:** For **Wellness Applications**, require SMART (`SHALL`) and cover these flows:
   - Wellness Application to HDAS: require SMART App Launch because authorization endpoint discovery
     is derived from the FHIR endpoint;
