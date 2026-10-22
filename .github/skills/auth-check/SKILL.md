@@ -69,16 +69,16 @@ If no mode is supplied, infer it from the request. Use **review** for check/audi
   scopes. For Backend Services, separately verify pre-authorization, client credentials, asymmetric
   authentication, and applicable `system/` scopes. Inventory every selected IUA and SMART role,
   confirm it has one ActorDefinition, and verify its introduction in the corresponding protocol
-  section. Compare CORS declarations with supported client architectures. Separate SMART scopes from
-  IUA MHD transaction scopes and map each scope to an interaction supported by that
-  CapabilityStatement. Verify that abstract statements do not fix a protocol service coding and that
+  section. Separate SMART scopes from IUA MHD transaction scopes and map each scope to an interaction
+  supported by that CapabilityStatement. Verify that abstract statements do not fix a protocol
+  service coding and that
   concrete instances advertise exactly their selected `IUA` or `SMART-on-FHIR` coding. Do not invent
   separate security-service codes for SMART Backend Services, Patient Access, or Clinician Access;
   verify those modes through SMART discovery capabilities, grants, client authentication, launch
   context, and scope families. For every IUA or SMART reference, verify an authoritative released-
   specification link is present; detailed claims must use the applicable actor, transaction, flow,
-  discovery, scope, token, or CORS section rather than only a generic specification link. The local
-  EHDS maintenance document SHALL NOT be linked or rendered in the IG. Verify each top-level
+  discovery, scope, or token section rather than only a generic specification link. The local EHDS
+  maintenance document SHALL NOT be linked or rendered in the IG. Verify each top-level
   CapabilityStatement FSH `Description` is concise; verify its matching Publisher-discovered intro
   note contains the detailed human-readable narrative, while `rest.documentation` and
   `rest.security.description` remain in FSH.
@@ -116,8 +116,6 @@ If no mode is supplied, infer it from the request. Use **review** for check/audi
 - Preserve existing SMART scopes only where they match the classified use case. Add IUA MHD
   transaction scopes only for supported ITI-65 through ITI-68 transactions. IUA defines no scope for
   ITI-105.
-- Apply CORS according to client architecture: SMART Backend Services and system-to-system IUA do not
-  inherently require it; browser-based clients require the protocol or IG-defined CORS behavior.
 - Cite only released IUA and SMART publications as normative evidence. Prefer stable section or
   transaction links over publication-root links, and never use mutable CI builds for conformance.
 - Where standards or requirements conflict, stop normative edits, cite the conflict, and request a
@@ -140,7 +138,7 @@ If no mode is supplied, infer it from the request. Use **review** for check/audi
   Abstract requirement statements omit a fixed service coding; concrete deployment instances
   advertise exactly the selected coding unless a defined dual profile applies.
 - CapabilityStatement scope lists retain and label SMART resource scopes separately from applicable
-  IUA MHD transaction scopes, and CORS declarations match the supported client architecture.
+  IUA MHD transaction scopes.
 - Every IUA and SMART reference has an authoritative released-specification citation appropriate to
   the adjacent claim, and all citation links render without breakage.
 - Actor, transaction, flow, discovery, scope, and CapabilityStatement content agree.

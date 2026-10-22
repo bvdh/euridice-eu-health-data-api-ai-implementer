@@ -86,7 +86,7 @@ user approval.
   Do not cite mutable CI or working-group renderings as normative evidence.
 - **AUTH-STD-008:** A citation SHALL support the specific adjacent claim. A general specification link
   does not adequately support a detailed statement about an actor, transaction, grant, discovery
-  mechanism, scope, claim, token rule, or CORS behavior when a stable section-level link exists.
+  mechanism, scope, claim, or token rule when a stable section-level link exists.
 
 ## Required Authorization Page Content
 
@@ -192,12 +192,6 @@ be refined for readability, but the content, normative strength, and traceabilit
   authentication, grant, scopes, token response, launch context, and Resource Server enforcement.
 - **AUTH-PAGE-SMART-002:** Make the selected SMART subset explicit for each environment and use case;
   do not apply Backend Services restrictions to interactive launch flows or vice versa.
-- **AUTH-PAGE-SMART-003:** Include a CORS subsection. State that SMART Backend Services uses
-  confidential server-side clients and does not by itself require browser CORS. Where the same
-  deployment supports purely browser-based SMART Apps, require the SMART App Launch 2.2 CORS rules:
-  public `metadata` and `.well-known/smart-configuration` discovery endpoints are accessible from any
-  origin, while token and protected FHIR endpoints allow the client's registered origin or origins.
-  Distinguish this conditional browser-app requirement from SMART Backend Services.
 - **AUTH-PAGE-SMART-004:** For every interactive clinician or patient use case, name and require the
   applicable released SMART App Launch 2.2 capability set from
   `https://hl7.org/fhir/smart-app-launch/STU2.2/conformance.html`:
@@ -231,12 +225,6 @@ be refined for readability, but the content, normative strength, and traceabilit
   relevant audit obligations.
 - **AUTH-PAGE-IUA-002:** Distinguish core IUA requirements from transaction-specific integration
   requirements and from this IG's additional recommendations.
-- **AUTH-PAGE-IUA-003:** Include a CORS subsection. State that IHE IUA does not define a universal CORS
-  requirement. System-to-system IUA transactions do not require CORS. Deployments supporting
-  browser-based IUA Authorization Clients SHALL define an explicit CORS policy: public metadata may
-  be retrieved cross-origin, while token and protected-resource endpoints allow only explicitly
-  authorized client origins. Identify this as an additional requirement of this IG, not an inherited
-  IUA requirement.
 
 ### Potential Future Work
 
@@ -411,10 +399,6 @@ be refined for readability, but the content, normative strength, and traceabilit
   applicable `patient/...` and `user/...` scopes for Patient or Clinician Access. Add a separate IUA
   subsection containing only the applicable IHE MHD transaction scopes for transactions supported by
   that actor. Do not merge scope families or SMART modes into an unlabeled list.
-- **AUTH-CAP-009:** Keep `CapabilityStatement.rest.security.cors` aligned with the deployment modes
-  described in `authorization.md`. A backend-only or system-to-system statement may declare CORS
-  unsupported. A statement claiming support for purely browser-based clients SHALL declare and
-  describe the required CORS behavior; a boolean alone does not replace the protocol-section rules.
 - **AUTH-CAP-010:** A `kind = requirements` CapabilityStatement that applies across environments SHALL
   describe the environment-selected IUA or SMART alternative in `rest.security.description` without
   advertising both alternatives as simultaneous endpoint conformance. It SHALL omit a fixed
@@ -424,7 +408,7 @@ be refined for readability, but the content, normative strength, and traceabilit
   any SMART mode, or `IUA` from
   `http://profiles.ihe.net/fhir/ihe.securityTypes/CodeSystem/securityTypes` for IHE IUA. It SHALL
   advertise both only when it implements a dual-conformance profile explicitly defined by this IG.
-  Its description, CORS declaration, scopes, and SMART discovery metadata SHALL match that selection.
+  Its description, scopes, and SMART discovery metadata SHALL match that selection.
 - **AUTH-CAP-012:** FHIR R4 defines one `SMART-on-FHIR` security-service code and no separate codes for
   SMART Backend Services, Patient Access, or Clinician Access. Distinguish SMART modes through
   `.well-known/smart-configuration` capabilities, grant types, client authentication methods, launch
@@ -513,9 +497,6 @@ be refined for readability, but the content, normative strength, and traceabilit
 - **AUTH-CHECK-016:** SMART resource scopes and IUA MHD transaction scopes are separately labeled and
   exactly match each CapabilityStatement's supported interactions. ITI-105 is never presented as an
   IUA-defined scope.
-- **AUTH-CHECK-017:** CORS declarations in CapabilityStatements agree with the SMART Backend Services
-  and IUA sections and with each supported client architecture. Browser-facing requirements are not
-  incorrectly imposed on system-to-system-only deployments.
 - **AUTH-CHECK-018:** Every IUA or SMART reference has a released, authoritative citation, and detailed
   claims use the relevant section or transaction link rather than only a generic specification link.
   No normative citation points to a CI build or mutable working-group rendering.
@@ -548,8 +529,8 @@ be refined for readability, but the content, normative strength, and traceabilit
   CapabilityStatements group only with the applicable Resource Server role by default, and
   Authorization Server remains independent.
 - **AUTH-ACCEPT-008:** Every generated CapabilityStatement preserves the scopes applicable to each
-  selected mode, labels SMART resource scopes and IUA MHD transaction scopes distinctly, and has a
-  CORS declaration consistent with its supported deployment modes. Abstract requirement statements
-  do not advertise a fixed protocol coding; concrete instances advertise exactly their selected one.
+  selected mode and labels SMART resource scopes and IUA MHD transaction scopes distinctly. Abstract
+  requirement statements do not advertise a fixed protocol coding; concrete instances advertise
+  exactly their selected one.
 - **AUTH-ACCEPT-009:** All rendered references to IHE IUA and SMART App Launch resolve to the released
   specification or an applicable stable subsection, with zero broken citation links.
