@@ -75,6 +75,10 @@ user approval.
     `https://hl7.org/fhir/smart-app-launch/STU2.2/conformance.html`;
   - SMART asymmetric client authentication:
     `https://hl7.org/fhir/smart-app-launch/STU2.2/client-confidential-asymmetric.html`;
+  - IHE Consistent Time (CT):
+    `https://profiles.ihe.net/ITI/TF/Volume1/ch-7.html`;
+  - NTPv4 specification:
+    `https://www.rfc-editor.org/rfc/rfc5905`;
   - IHE IUA Revision 2.5 publication:
     `https://profiles.ihe.net/ITI/IUA/index.html`;
   - IUA transaction pages, such as ITI-71, ITI-72, ITI-102, and ITI-103:
@@ -215,6 +219,12 @@ be refined for readability, but the content, normative strength, and traceabilit
   servers SHALL support `S256` and SHALL NOT support `plain`. Public clients do not authenticate at
   the token endpoint. Confidential interactive clients use their registered symmetric or asymmetric
   authentication method and are not universally required to use `private_key_jwt`.
+- **AUTH-PAGE-SMART-006:** This IG recommends (`SHOULD`) that SMART Authorization Server and SMART
+  FHIR Resource Server actors be grouped with the IHE CT Time Client, whether used for interactive
+  SMART App Launch or SMART Backend Services. This is an additional IG-level recommendation, not a
+  SMART App Launch conformance requirement, and does not apply to SMART client actors solely by
+  virtue of their client role. Explain that IHE CT uses NTP and that NTPv4 is backward compatible
+  with NTPv3 according to RFC 5905, while avoiding claims that the SMART specification requires CT.
 
 ### IHE IUA
 
@@ -279,7 +289,8 @@ be refined for readability, but the content, normative strength, and traceabilit
   **SMART App**, **SMART Backend Service**, **SMART FHIR Resource Server**, **SMART Authorization
   Server**, and **SMART Launching System**. Clearly state which roles apply only to interactive launch,
   Backend Services, or EHR launch. Add further roles only when a use case gives them independent
-  conformance responsibilities.
+  conformance responsibilities. The server role descriptions SHALL link to AUTH-PAGE-SMART-006;
+  do not extend its CT recommendation to SMART client roles.
 - **AUTH-ACTOR-009:** A protected server-side API actor, including Document Access Provider and
   Resource Access Provider, SHALL be grouped with the applicable **IHE IUA Resource Server** or
   **SMART FHIR Resource Server**. It SHALL NOT be inherently grouped with an Authorization Server.
@@ -413,6 +424,10 @@ be refined for readability, but the content, normative strength, and traceabilit
   SMART Backend Services, Patient Access, or Clinician Access. Distinguish SMART modes through
   `.well-known/smart-configuration` capabilities, grant types, client authentication methods, launch
   context, and applicable `system/`, `patient/`, or `user/` scopes. Do not invent subtype codes.
+- **AUTH-CAP-013:** A protected server CapabilityStatement that supports SMART SHALL link to
+  `authorization.md#smart-server-time-synchronization` for the additional IG-level CT grouping
+  recommendation. Do not represent that recommendation as a SMART-defined conformance capability or
+  extend it to client roles.
 
 ## Information Ownership
 
@@ -506,6 +521,10 @@ be refined for readability, but the content, normative strength, and traceabilit
 - **AUTH-CHECK-020:** Every CapabilityStatement has a concise generated `description`; where detailed
   human-readable narrative is needed, its matching Publisher-discovered intro note renders that
   narrative without duplicating or removing computable FSH requirements.
+- **AUTH-CHECK-021:** SMART Authorization Server and SMART FHIR Resource Server roles link to the
+  IG-level CT `SHOULD` recommendation for interactive and Backend Services modes; SMART client roles
+  are not assigned CT grouping by their client role. IUA server CT grouping remains identified as
+  required by IUA Revision 2.5.
 
 ## Acceptance Criteria
 
