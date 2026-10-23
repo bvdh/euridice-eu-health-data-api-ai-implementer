@@ -33,36 +33,35 @@ Unresolved.
 
 ## Implementation Status
 
-**Ticket disposition: Pending.** The local ticket record remains Triaged with
-an Unresolved Jira resolution. It contains no ticket-linked PR, commit, or
-comment documenting adoption of this request. The implementation snapshot
-below is evidence of branch content only; it does not establish that this
-ticket was implemented or resolved.
+**Ticket status: Pending.** The local ticket record remains Triaged with an
+Unresolved Jira resolution. It contains no ticket-linked PR, commit, or comment
+documenting adoption of this request. GitHub PR
+[#99](https://github.com/euridice-org/eu-health-data-api/pull/99) is open,
+targets `main`, and currently has head
+[`c0e4af73c30331136bf3df722e988cfd3cc48d38`](https://github.com/euridice-org/eu-health-data-api/commit/c0e4af73c30331136bf3df722e988cfd3cc48d38).
+The PR changes the actor and authorization pages relevant to this ticket. It
+is unmerged branch evidence, not proof of a formal Jira resolution.
 
-**Implementation snapshot:** The inspected source is branch
-`eu-health-data-api-ballot-recon-auth` (logical branch
-`ballot-recon-authorization`) at commit
-[`019276d397944036d1e502a2acddb3d5e56e158c`](https://github.com/euridice-org/eu-health-data-api/commit/019276d397944036d1e502a2acddb3d5e56e158c),
-dated 2026-10-08. The branch worktree was clean at that snapshot. Source links
-below are pinned to that commit:
+The previously analyzed source at commit
+`019276d397944036d1e502a2acddb3d5e56e158c` is superseded for this analysis.
+Evidence below is pinned to the current PR head:
 
 <!-- markdownlint-disable MD013 -->
-- [`Actors.fsh` — generic EU Authorization Client](https://github.com/euridice-org/eu-health-data-api/blob/019276d397944036d1e502a2acddb3d5e56e158c/input/fsh/Actors.fsh#L27): the generic role obtains and presents a token; its description says it does not by itself claim IHE IUA or SMART conformance.
-- [`Actors.fsh` — IHE IUA Authorization Client](https://github.com/euridice-org/eu-health-data-api/blob/019276d397944036d1e502a2acddb3d5e56e158c/input/fsh/Actors.fsh#L206): a separate protocol-specific ActorDefinition says the client authenticates to the Authorization Server, requests least-privilege scopes, presents the bearer token, and implements applicable IUA transactions.
-- [`actors.md`](https://github.com/euridice-org/eu-health-data-api/blob/019276d397944036d1e502a2acddb3d5e56e158c/input/pagecontent/actors.md#L41): composite actors use the IUA Authorization Client, SMART App, or SMART Backend Service selected for the environment and use case. The page does not define a third, derived EU IUA client actor.
-- [`authorization.md` — IUA requirements and integration](https://github.com/euridice-org/eu-health-data-api/blob/019276d397944036d1e502a2acddb3d5e56e158c/input/pagecontent/authorization.md#L185): it distinguishes core IUA requirements from this IG's MHD transaction integration and additional recommendations. Core IUA defines no scopes; MHD integration uses `ITI-65` through `ITI-68` transaction scopes only for supported transactions, and `ITI-105` has no IUA-defined transaction scope ([scope model](https://github.com/euridice-org/eu-health-data-api/blob/019276d397944036d1e502a2acddb3d5e56e158c/input/pagecontent/authorization.md#L27), [transaction limits](https://github.com/euridice-org/eu-health-data-api/blob/019276d397944036d1e502a2acddb3d5e56e158c/input/pagecontent/authorization.md#L198)). The page also identifies browser-client CORS policy as an explicit IG requirement rather than a universal IUA requirement ([CORS](https://github.com/euridice-org/eu-health-data-api/blob/019276d397944036d1e502a2acddb3d5e56e158c/input/pagecontent/authorization.md#L189)).
+- [`Actors.fsh` — generic Health Data API Authorization Client](https://github.com/euridice-org/eu-health-data-api/blob/c0e4af73c30331136bf3df722e988cfd3cc48d38/input/fsh/Actors.fsh#L27-L38): a separately named generic role obtains and presents a token and explicitly does not itself claim IHE IUA or SMART conformance.
+- [`Actors.fsh` — IHE IUA Authorization Client](https://github.com/euridice-org/eu-health-data-api/blob/c0e4af73c30331136bf3df722e988cfd3cc48d38/input/fsh/Actors.fsh#L231-L244): a separate protocol-specific ActorDefinition links to the formal IHE actor; its description says it requests least-privilege scopes and implements applicable IUA transactions.
+- [`authorization.md` — environment selection and IUA requirements](https://github.com/euridice-org/eu-health-data-api/blob/c0e4af73c30331136bf3df722e988cfd3cc48d38/input/pagecontent/authorization.md#L4-L6): SMART App Launch 2.2 and IHE IUA Revision 2.5 are selected per environment. The IUA section separates core IUA requirements from MHD integration and additional recommendations, but leaves the status of the least-privilege wording unclassified ([IUA section](https://github.com/euridice-org/eu-health-data-api/blob/c0e4af73c30331136bf3df722e988cfd3cc48d38/input/pagecontent/authorization.md#ihe-iua)).
+- [`actors.md` — composite actor groupings](https://github.com/euridice-org/eu-health-data-api/blob/c0e4af73c30331136bf3df722e988cfd3cc48d38/input/pagecontent/actors.md#L22-L30): generic Health Data API roles are distinct from selected IUA or SMART protocol actors.
+- [IHE IUA Revision 2.5 — Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client): defines the client as obtaining and attaching an access token; the inspected actor definition does not state a least-privilege-scope SHALL.
 <!-- markdownlint-enable MD013 -->
 
-This snapshot therefore contains a generic EU client role and a separate
-IHE-IUA-specific client role, but no separately named IG-derived IUA client.
-The Authorization page separates core IUA from conditional MHD integration and
-additional IG recommendations/requirements. The remaining ambiguity is the
-provenance of the IUA ActorDefinition's “least-privilege scopes” wording: the
-same Authorization page says core IUA has no scopes, but does not explicitly
-classify that client-description phrase as inherited IUA behavior or an
-IG/MHD-level requirement. Whether any additional mandatory constraints warrant
-a derived actor remains a workgroup decision; this branch snapshot does not
-make the derived-actor change requested as an example in the ticket.
+The PR therefore separates the generic EU authorization role from the
+protocol-specific IHE IUA actor and identifies protocol selection as
+environment-specific. It does not define a third derived IUA actor. The
+official IHE IUA Revision 2.5 Authorization Client description says the client
+obtains and attaches an access token; the inspected actor section does not
+establish “least-privilege scopes” as an IUA SHALL. The IG source also leaves
+that phrase's status unclassified. This is a limited residual clarification
+point, not evidence that the whole request remains unaddressed.
 
 ## Related Tickets
 
@@ -73,37 +72,38 @@ about defining a distinct actor when the IG adds requirements beyond the IUA
 Authorization Client. This is secondary context only; no formal relationship
 is recorded in this ticket.
 
-## Published Build Context (Not Implementation Evidence)
+## Current Build References
 
 <!-- markdownlint-disable MD013 -->
-- [Authorization — IHE IUA](https://hl7.eu/fhir/health-data-api/current-build/en/authorization.html#ihe-iua) — published-build context for the separation of IUA and IG/MHD requirements.
-- [Actors and Transactions](https://hl7.eu/fhir/health-data-api/current-build/en/actors.html) — published-build context for composite actor selection.
-- [IHE IUA Authorization Client](https://hl7.eu/fhir/health-data-api/current-build/en/ActorDefinition-iua-authorization-client-eu-api.html) — published-build context for the protocol-specific actor.
+- [Authorization — IHE IUA](https://hl7.eu/fhir/health-data-api/authorization.html#ihe-iua) — relevant to the distinction between IUA requirements, environment selection, and IG/MHD integration.
+- [Actors and Transactions](https://hl7.eu/fhir/health-data-api/actors.html) — relevant to generic and protocol-specific actor groupings.
+- [IHE IUA Authorization Client](https://hl7.eu/fhir/health-data-api/ActorDefinition-iua-authorization-client-eu-api.html) — relevant to the named protocol-specific actor.
 <!-- markdownlint-enable MD013 -->
 
-These mutable published pages are context only, not evidence for the
-implementation-status assessment. That assessment is grounded in the pinned
-branch/commit source links above. The ticket identifies Authorization as its
-related page; actor references are included because the request concerns the
-IUA Authorization Client definition and its distinction from the generic EU
-role. Published-page availability and rendering were not independently
-verified for this proposal.
+These mutable published pages provide current-build context only, not proof
+that PR #99 has been merged or that the ticket has been resolved. The
+implementation assessment is grounded in the PR-head source links above. The
+published site identifies the current EU Health Data API ballot build; its
+rendered authorization details were not independently compared with the
+unmerged PR.
 
 ## Disposition Analysis
 
-The pinned 2026-10-08 branch snapshot already distinguishes the generic EU
-Authorization Client from the IHE IUA Authorization Client and states that
-core IUA, MHD integration, and additional IG recommendations are separate. It
-does not define a derived client actor or explicitly classify the IUA
-ActorDefinition's least-privilege wording by requirement source. MHD
-transaction scopes are explicitly limited to supported transactions;
-ITI-105 has no IUA-defined transaction scope.
+The open PR's current source substantially addresses the request by defining
+the generic Health Data API Authorization Client separately from the formal
+IHE IUA Authorization Client, and by selecting authorization protocol by
+environment. The Authorization page also distinguishes core IUA requirements
+from conditional MHD integration and recommendations. Keeping the formal IUA
+actor separate from the generic IG role avoids presenting the latter as IHE
+conformant without requiring a third derived actor.
 
-The environment-specific selection of IUA or SMART does not establish a
-blanket SMART-over-IUA precedence rule. SMART applies in the environments and
-flows selected by the IG; it does not redefine the IUA actor where IUA is
-selected. Any overlapping dual-conformance or precedence rule would require an
-explicit workgroup decision.
+The remaining point is that “least-privilege scopes” appears in the IUA actor
+description but is not classified as inherited IUA behavior, a recommendation,
+or an additional IG constraint. The inspected IHE IUA Revision 2.5 actor
+description states that the client obtains and attaches an access token
+without that phrase. The workgroup should clarify its status before using it
+as a conformance criterion. Environment-specific protocol selection also
+does not define universal precedence for a dual-conformance endpoint.
 
 ## Proposed Dispositions
 
@@ -111,96 +111,85 @@ explicit workgroup decision.
 
 #### Proposal (A)
 
-Define a separately named EU IG IUA Authorization Client profile derived from
-the formal IHE IUA Authorization Client if the workgroup confirms additional
-mandatory client constraints. Keep the formal IHE actor unchanged, enumerate
-each added constraint as an explicit profile delta, and identify whether it
-applies generally or only to a selected MHD transaction/use case. State that
-SMART requirements apply to SMART-selected environments and flows; do not make
-SMART a universal override of IUA absent an explicitly selected
-dual-conformance case.
+Adopt the generic Health Data API Authorization Client and separate
+protocol-specific IHE IUA Authorization Client definitions already present
+in PR #99. Clarify whether “least-privilege scopes” describes applicable
+standard guidance or adds an IG-level requirement, and label any additional
+mandatory constraint explicitly rather than attributing it to IHE IUA.
 
 #### Justification (A)
 
-This directly addresses the concern that an actor with additional constraints
-could be mistaken for the standard IUA actor. It gives implementers a clear
-conformance target if the workgroup intends a stronger profile. Its cost is
-introducing and maintaining an additional profile and normative boundary that
-the pinned branch snapshot does not yet define; that decision cannot be
-inferred from the ticket or the pinned ActorDefinition descriptions.
+This directly addresses the request's actor-identity concern while preserving
+the formal IHE actor name. It also closes the remaining scope-language
+ambiguity. It does not require a third derived actor unless the workgroup
+decides additional mandatory behavior must be conformed to as a distinct
+profile.
 
 ### Disposition B: Alternative Approach
 
 #### Proposal (B)
 
-Retain the generic EU Authorization Client and protocol-specific IHE IUA
-Authorization Client actors present in the pinned branch snapshot. Clarify its
-IUA actor description and Authorization-page explanation to classify
-requirements as: (1) formal
-IUA actor/transaction requirements, (2) conditional MHD integration
-requirements for supported transactions, or (3) additional IG recommendations
-or requirements. Clarify that MHD transaction scopes are not universal IUA
-scopes, that ITI-105 has no IUA-defined transaction scope, and that any
-additional mandatory profile requirement or cross-protocol precedence rule
-requires a separate workgroup decision. Do not introduce a new actor unless the
-workgroup adopts such additional normative constraints.
+Accept the PR #99 separation and environment-specific protocol selection as
+the response to the ticket, without creating a third derived actor. Record
+that unresolved requirement-strength questions, including the
+least-privilege-scope phrase, require explicit clarification; do not infer a
+universal SMART-over-IUA precedence rule.
 
 #### Justification (B)
 
-This resolves the ambiguity at its source while preserving the current
-separation of generic EU and protocol-specific roles. It avoids suggesting
-that the IUA actor itself has been replaced or that every client must meet
-MHD-specific requirements. It also reflects the current environment-specific
-choice between SMART and IUA without asserting an unimplemented global
-precedence rule. A separately named profile remains available if the workgroup
-later adopts additional constraints.
+This tracks the implementation actually proposed in the PR and resolves the
+misidentification of the generic EU role as the IHE actor. It is more
+proportionate than adding a third actor when the PR says the selected IHE or
+SMART profile supplies the protocol conformance target. The trade-off is that
+the exact conformance status of “least-privilege scopes” remains open.
 
 ### Disposition C: Decline
 
 #### Proposal (C)
 
-Make no changes and rely on the generic/protocol-specific actor
-distinction and the Authorization page's statement that core IUA requirements
-are separate from MHD integration and IG recommendations.
+Make no changes to the request, relying on the existing PR text and leaving
+the least-privilege wording unclassified.
 
 #### Justification (C)
 
-The pinned branch snapshot already contains the principal distinctions and
-limits MHD scopes to supported transactions. Declining avoids duplicating requirements
-across pages or creating an unnecessary actor. The drawback is that the IUA
-ActorDefinition does not itself identify whether its least-privilege wording is
-formal IUA behavior, an IG expectation, or conditional on integration, leaving
-room for the exact confusion raised by the ticket.
+The PR already distinguishes the generic authorization role from the IHE IUA
+role and makes protocol choice environment-specific. Declining avoids further
+text changes, but leaves the conformance strength and source of the
+least-privilege wording unclear, preserving the specific ambiguity raised by
+the ticket.
 
 ### Recommendation
 
 Recommended disposition: B
 
-The pinned branch snapshot already has generic and IUA-specific client actors
-and distinguishes core IUA from MHD integration and IG additions, but it has
-not defined a derived IUA actor or classified every client constraint by
-source. Disposition B addresses that narrow gap without claiming the ticket
-has been implemented. If the workgroup confirms additional mandatory
-constraints beyond the selected IUA/MHD requirements, it should state the
-profile delta explicitly and decide whether a separately named derived actor
-is warranted. No universal SMART precedence should be inferred from the
-environment-specific protocol selection.
+Disposition B best matches the current PR source: it separates the generic
+Health Data API role from named protocol roles and selects IUA or SMART by
+environment. It answers the ticket's concern without claiming that PR #99 is
+merged or that a third actor has been defined. The workgroup should still
+classify the least-privilege phrase; if it intends additional mandatory
+behavior beyond the selected standard, it should state that delta and decide
+whether a derived actor is warranted.
 
 ## Next Steps
 
-1. Classify least-privilege wording as an IG requirement, recommendation, or
-description of selected IUA/MHD behavior.
-2. Select MHD transactions and scopes per client; ITI-105 has no IUA scope.
-3. Adopt any added mandatory constraints and define a derived-profile delta.
-4. Set SMART/IUA precedence only if dual conformance is explicitly adopted.
-5. Leave the ticket unresolved; do not change ticket or specification sources.
+1. Ask the workgroup to classify “least-privilege scopes” as inherited
+   standard guidance, an IG recommendation, or an additional IG requirement.
+2. If additional mandatory constraints are intended, enumerate the delta and
+   decide whether a separately named derived actor is needed.
+3. Do not infer universal SMART/IUA precedence from environment-specific
+   protocol selection.
+4. Keep Jira Triaged/Unresolved unless and until the workgroup records a
+   formal disposition; PR #99 remains open.
 
 ## Verification Checklist
 
-- [x] Ticket metadata, description, and available comment/evidence content reviewed.
-- [x] Authorization and actor sources reviewed; the consolidated entry is
-secondary context only.
-- [x] Published pages are context only; claims cite the pinned commit.
+- [x] Ticket metadata, description, and available local comment/evidence content reviewed.
+- [x] PR #99 state and head verified with `gh`; the PR is open and its head is
+  identified by commit.
+- [x] Authorization and actor claims are linked to PR-head source; the
+  consolidated entry is secondary context only.
+- [x] Current build references are included and distinguished from
+  unmerged-PR implementation evidence.
 - [x] Dispositions A, B, and C are concrete and distinct.
 - [x] Recommendation is explicit and explains trade-offs against the alternatives.
 - [x] Missing evidence and open decisions recorded; no conformance inferred.

@@ -23,63 +23,64 @@
 The ticket says the Resource Access Scopes section is unclear because it lists scopes such as `system/AllergyIntolerance.rs` and `system/Condition.rs` without sufficient explanation.
 
 ## Implementation Status
-**Pending.** The local ticket is Triaged and Unresolved. Its record contains no comments or linked PR, commit, or related issue establishing implementation. The designated ballot-reconciliation branch source contains relevant scope and support explanations, but that source context is not ticket-linked implementation evidence. The Resource Access page classifies its list as SMART Backend Services scopes and distinguishes them from IUA scopes, but it does not explain the `.rs` suffix beside the list.
+**Applied in the current source; local Jira metadata remains Triaged / Unresolved.** The local ticket record contains no comments or PR/commit links, but the Resource Access source includes an editorial note identifying the FHIR-56639 resolution as “Remove ‘Scopes’ section since applicable resources are now listed above.” The current page has no standalone Scopes section or list of scope strings; resources are listed by priority data category and described in the supported-resource sections. PR [#99](https://github.com/euridice-org/eu-health-data-api/pull/99) is open and unmerged, but it did not remove the list: the removal predates the PR. It adds flow-specific context about SMART scope families, which is supporting clarification rather than the implementation of the removal.
 
 ## Related Tickets
 No related ticket keys are identified in the local ticket record.
 
 ## Current Build References
-**Authoritative local implementation snapshot:** logical branch `ballot-recon-authorization`, using the designated `eu-health-data-api-ballot-recon-auth` worktree at commit `019276d397944036d1e502a2acddb3d5e56e158c` (2026-10-08). The worktree is clean and its `HEAD` matches that commit. The ticket's local record has no comments, PR, commit, or related-issue evidence linking this implementation to FHIR-56639.
+These published current-build links are related-page references only; their content is not evidence of the unmerged branch source.
 
-- [Resource Access source](../../../eu-health-data-api-ballot-recon-auth/input/pagecontent/resource-access.md) — the Scopes section calls the entries SMART App Launch 2.2 FHIR Resource Scopes for the separately classified SMART Backend Services/direct-system use case; it says interactive uses select `patient/` or `user/` scopes and these are not IUA transaction scopes. Its nine listed values are `system/AllergyIntolerance.rs`, `system/Condition.rs`, `system/Observation.rs`, `system/DiagnosticReport.rs`, `system/MedicationRequest.rs`, `system/MedicationDispense.rs`, `system/MedicationStatement.rs`, `system/Immunization.rs`, and `system/Encounter.rs`. This adjacent text does not spell out what `.rs` means.
-- [Authorization source](../../../eu-health-data-api-ballot-recon-auth/input/pagecontent/authorization.md) — gives `patient/Observation.rs` as a scope example and describes the general SMART v2 form as `<patient|user|system>/<ResourceType>.<cruds>`. It does not expand `r` and `s` in that passage; therefore it supplies the syntax context, not the missing inline explanation beside the Resource Access list.
-- [Resource Access Provider CapabilityStatement source](../../../eu-health-data-api-ballot-recon-auth/input/fsh/capabilitystatements/CapabilityStatementResourceAccessProvider.fsh) — says providers MAY support a subset and declare supported resources; for SMART Backend Services they SHALL accept scopes for resources they support. It labels `system/Patient.rs` “REQUIRED - read + search Patient” and makes the other listed resource scopes conditional on provider support; Practitioner and Organization use `.r`.
-- [Resource Consumer CapabilityStatement source](../../../eu-health-data-api-ballot-recon-auth/input/fsh/capabilitystatements/CapabilityStatementResourceConsumer.fsh) — says clients MAY choose resources based on their needs and server capabilities, with Patient lookup required and other resources requested as needed. For Backend Services clients SHALL request scopes for resources they need; it likewise labels `system/Patient.rs` “REQUIRED - read + search Patient” and conditions other scopes on need.
+- [Resource Access](https://hl7.eu/fhir/health-data-api/current-build/en/resource-access.html) — related page for the supported-resource inventory.
+- [Authorization — Tokens, scopes, enforcement, and errors](https://hl7.eu/fhir/health-data-api/current-build/en/authorization.html#tokens-scopes-enforcement-and-errors) — linked authorization context.
 
-**Published page context only (not evidence of the pinned branch or ticket-linked implementation):** [Resource Access — Scopes](https://hl7.eu/fhir/health-data-api/current-build/en/resource-access.html#scopes), [Authorization](https://hl7.eu/fhir/health-data-api/current-build/en/authorization.html#tokens-scopes-enforcement-and-errors), [Resource Access Provider CapabilityStatement](https://hl7.eu/fhir/health-data-api/current-build/en/CapabilityStatement-resource-access-provider-eu-api.html), and [Resource Consumer CapabilityStatement](https://hl7.eu/fhir/health-data-api/current-build/en/CapabilityStatement-resource-consumer-eu-api.html).
+## Implementation Evidence
+- Ticket source: [FHIR-56639.md](./FHIR-56639.md) — status Triaged, resolution Unresolved, with no comments or implementation links.
+- Current implementation worktree: `eu-health-data-api-ballot-recon-auth`, local `HEAD` `1638e75b81a8c43126ab44eb2f3bba92b15190b2`.
+- Current PR: [PR #99 — Eu health data api ballot recon authorization](https://github.com/euridice-org/eu-health-data-api/pull/99) — Open, unmerged; remote PR head `c0e4af73c30331136bf3df722e988cfd3cc48d38` as checked 2026-10-22.
+- The local worktree's `input/pagecontent/resource-access.md` matches the PR-head version. PR #99 changes this page by adding explanatory text that interactive access uses applicable `patient/` or `user/` scopes, Backend Services uses applicable `system/` scopes, and these SMART scopes are distinct from generic FHIR scopes and IUA transaction scopes. It links to Authorization for further detail.
+- Neither the current source nor the PR-head source has a standalone Scopes heading or the former `system/AllergyIntolerance.rs` / `system/Condition.rs` list. The page retains the supported-resource inventory, while the provider CapabilityStatement separately documents supported resource scopes and conditions.
+- The PR head is behind the local worktree by two commits overall; only the cited Resource Access source file was confirmed identical between the local `HEAD` and PR head. Do not infer that the entire local branch is included in PR #99.
 
 ## Disposition Analysis
-The pinned branch has already classified the Resource Access entries as SMART App Launch 2.2 FHIR Resource Scopes for its separately identified Backend Services/direct-system use case, distinguished them from IUA transaction scopes, and directed interactive use to `patient/` or `user/` scopes. Its adjacent scope list, however, does not explain that `.rs` represents read and search. Authorization supplies the general `<cruds>` syntax but does not expand those letters there; both CapabilityStatements explicitly gloss `system/Patient.rs` as read + search. The concrete gap is therefore local and narrow: explain the suffix beside the Resource Access examples, while preserving the existing scope-family and use-case distinctions.
+The requested outcome is to remove the Scopes section because its resource entries are already listed in the Resource Access content. The current source does this: the section and its scope-string list are absent, and the editorial note explicitly records that as the FHIR-56639 resolution. This avoids maintaining a duplicate resource inventory in scope-string form. It also means that explaining `.rs` beside the removed list is no longer needed to resolve this ticket.
 
-The branch also makes support conditional. Resource Access says providers are not required to support all clinical resources and declare supported resources in their CapabilityStatement. The provider CapabilityStatement says a provider SHALL accept scopes for resources it supports, with the non-Patient clinical resources conditional on support; the consumer CapabilityStatement says clients request scopes for resources they need, informed by server capabilities. Patient lookup is treated separately as required, and the CapabilityStatements label `system/Patient.rs` read + search. Clarification should not imply that every listed clinical resource is required in every deployment.
-
-This describes current content at the pinned local branch commit, not ticket-linked implementation evidence. The ticket record itself provides no comment or linked PR/commit proving that the requested change has been implemented for this ticket. SMART FHIR resource scopes remain distinct from IUA/MHD transaction identifiers; transaction identifiers are not SMART scope values.
+The page separately provides useful context about scope families by authorization flow and distinguishes SMART resource scopes from IUA transaction scopes. PR #99 adds that context, but is open and unmerged and is not the change that removed the Scopes section. The local ticket record still shows Triaged / Unresolved; source implementation does not establish that Jira has been formally updated or closed.
 
 ## Proposed Dispositions
 ### Disposition A: Accept As Requested
 #### Proposal
-Add a concise explanation immediately beside the existing list: each `system/<ResourceType>.rs` value is a SMART FHIR resource scope for the named resource, and `.rs` means read and search. State that a clinical-resource scope is relevant when the provider supports that resource and the consumer needs it; the provider declares support in its CapabilityStatement. Preserve the existing distinction from IUA transaction scopes and the separate interactive `patient/` and `user/` scope forms. Do not make every listed clinical resource a universal deployment requirement.
+Remove the standalone Scopes section and its scope-string list from Resource Access because the applicable resources are already listed in the page content.
 #### Justification
-This directly resolves the remaining ambiguity at the point of use. It reuses the `.rs` meaning explicitly glossed for Patient in both CapabilityStatements and the conditional provider/consumer model already stated across the branch sources. It avoids duplicating the resource inventory or suggesting that the SMART list is an IUA/MHD transaction-scope list.
+This matches the explicit FHIR-56639 source note and the current page structure. It avoids duplicating the resource inventory and removes the need to explain `.rs` in a list that is no longer present.
 
 ### Disposition B: Alternative Approach
 #### Proposal
-Replace the code block with a table giving each scope, its plain-language action, and its support condition (provider-supported and consumer-needed); retain the SMART-versus-IUA and interactive-scope distinctions in a note.
+Keep the standalone Scopes list removed and add a compact SMART-versus-IUA and flow-specific explanation (`patient/`, `user/`, and `system/`) with a link to Authorization.
 #### Justification
-The table makes per-resource actions and conditions explicit, but duplicates information that can be stated once for the shared `.rs` suffix and risks drifting from the CapabilityStatements. It is more change than needed for the precise gap.
+This preserves the requested removal while adding useful authorization context. The paragraph is present in the current source and in PR #99, but it is supplementary and not necessary to the core requested resolution. This option is more than the ticket requires.
 
 ### Disposition C: Decline
 #### Proposal
-Make no change to Resource Access; rely on its SMART/IUA classification, Authorization's generic scope grammar, and the CapabilityStatements' Patient `rs` gloss and conditional resource rules.
+Make no change to the Resource Access content and leave the Scopes list in place.
 #### Justification
-The surrounding branch sources provide substantial context, including the `Patient.rs` read + search gloss in both CapabilityStatements. But the list itself still leaves `.rs` unexplained and requires readers to navigate elsewhere; declining would leave that specific usability gap unresolved.
+This does not implement the requested removal and retains the duplicate list that motivated the ticket.
 
 ### Recommendation
 **Recommended disposition:** A
 
-Accept with a concise explanation beside the existing list. The branch has already supplied the scope-family distinctions and capability-dependent support model; the remaining gap is the meaning of `.rs` at the list itself. A single inline gloss and a brief support-condition sentence address that gap without duplicating all entries as B would or leaving readers to infer the suffix as C would. Keep Patient lookup's separate required treatment distinct from the optional clinical-resource set.
+Accept as requested: remove the redundant Scopes section because its applicable resources are already listed in the page. The source note explicitly records this as the FHIR-56639 resolution, and the current content reflects that removal. The flow-specific SMART/IUA paragraph is useful supplementary material, but is not required to achieve the disposition. This recommends a workgroup resolution; it does not imply that Jira status has already been updated.
 
 ## Next Steps
-- Add the `.rs` read-and-search gloss beside the Resource Access scope list and retain the existing examples.
-- State that clinical-resource availability depends on provider support and consumer need; keep Patient lookup's separate treatment clear.
-- Preserve the distinction between SMART FHIR resource scopes, interactive `patient/`/`user/` scopes, and IUA transaction scopes.
-- Verify consistency with the pinned provider and consumer CapabilityStatements.
+- Confirm or record the workgroup disposition as Persuasive / remove the Scopes section, then update Jira status through the normal process.
+- Do not characterize PR #99 as having removed the list; the removal predates that open PR.
 
 ## Verification Checklist
-- [x] Ticket metadata and available implementation evidence reviewed
-- [x] Pinned local branch sources and commit/date recorded; published pages labeled context only
-- [x] Current branch scope syntax, `.rs` gap, conditionality, and provider/consumer support stated accurately
-- [x] Ticket-linked implementation evidence distinguished from current branch source evidence
+- [x] Ticket metadata and local status reviewed
+- [x] Current local source and current PR state/head verified on 2026-10-22
+- [x] PR and local source distinction documented; no merge claim made
+- [x] Current page and source comment confirm the Scopes list removal requested for FHIR-56639
+- [x] PR #99 is distinguished from the earlier source change removing that list
 - [x] Dispositions A, B, and C are specific and meaningfully distinct
-- [x] Recommendation is explicit and justified
-- [x] SMART `.rs` meaning, deployment optionality, CapabilityStatement relationship, and transaction distinction are addressed
+- [x] Recommendation is explicit and grounded in current source and PR evidence
+- [x] Current-build references included and explicitly labeled as context only

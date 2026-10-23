@@ -47,8 +47,9 @@ This skill turns a plan into implementation by:
 
 ## Memory Artifact
 
-- Repository memory file: `/memories/repo/ticket-skill-learnings.md`
+- Outer repository memory file: `doc/ai-implementer-memory/ticket-skill-learnings.md`
 - Purpose: store recurring execution/debug patterns, preferred fix strategies, and validation best practices.
+- Read and update this file relative to the outer AI-implementer repository root, regardless of the selected IG fork worktree.
 
 ## Outputs
 
@@ -61,9 +62,9 @@ This skill turns a plan into implementation by:
 
 ### Step 0: Load Ticket Learnings Memory
 
-1. Read `/memories/repo/ticket-skill-learnings.md` if present.
+1. Read `doc/ai-implementer-memory/ticket-skill-learnings.md` from the outer repository root if it exists.
 2. Reuse relevant prior execution heuristics (for example, frequent failure triage patterns and successful fix loops).
-3. If missing, continue and create/update it at the end of execution.
+3. If missing, create it under the outer repository's `doc/ai-implementer-memory/` directory at the end of execution.
 
 ### Step 0.1: Enforce Active Ticket Location
 
@@ -237,7 +238,7 @@ If the user declines:
 
 ### Step 9: Persist Reusable Learnings to Memory (Required)
 
-Append concise bullets to `/memories/repo/ticket-skill-learnings.md` with:
+Append concise bullets to `doc/ai-implementer-memory/ticket-skill-learnings.md` with:
 
 1. Common build/regression failure patterns and successful remediations.
 2. Preferred execution ordering and validation techniques.
@@ -256,7 +257,7 @@ Execution is complete only if all are true:
 5. Final status is explicit: `passed`, `passed-with-unrelated-blocker`, or `blocked`.
 6. Evidence is recorded (key error lines or summary path).
 7. A scope-limited staging set is prepared and commit confirmation is requested.
-8. Reusable execution learnings are persisted to `/memories/repo/ticket-skill-learnings.md`.
+8. Reusable execution learnings are persisted to `doc/ai-implementer-memory/ticket-skill-learnings.md`.
 
 ## Decision Rules
 

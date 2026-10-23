@@ -36,16 +36,17 @@ Output file:
 
 ## Memory Artifact
 
-- Repository memory file: `/memories/repo/ticket-skill-learnings.md`
+- Outer repository memory file: `doc/ai-implementer-memory/ticket-skill-learnings.md`
 - Purpose: capture recurring implementation-planning patterns, preferred mapping approaches, and common planning pitfalls.
+- Read and update this file relative to the outer AI-implementer repository root, regardless of the selected IG fork worktree.
 
 ## Workflow
 
 ### Step 0: Load Ticket Learnings Memory
 
-1. Read `/memories/repo/ticket-skill-learnings.md` if it exists.
+1. Read `doc/ai-implementer-memory/ticket-skill-learnings.md` from the outer repository root if it exists.
 2. Reuse applicable planning heuristics (for example, recurring file-mapping strategies and proven validation steps).
-3. If missing, continue and create/update it at the end of execution.
+3. If missing, create it under the outer repository's `doc/ai-implementer-memory/` directory at the end of execution.
 
 ### Step 0.1: Enforce Active Ticket Location
 
@@ -250,7 +251,7 @@ For implementation-required plans, include execution checks using local build fl
 
 ### Step 7: Persist Reusable Learnings to Memory (Required)
 
-Append concise bullets to `/memories/repo/ticket-skill-learnings.md` with:
+Append concise bullets to `doc/ai-implementer-memory/ticket-skill-learnings.md` with:
 
 1. Common resolution-to-task translation patterns.
 2. Preferred file-discovery and impact-mapping approaches.
@@ -274,7 +275,7 @@ The generated implementation plan is complete only if all are true:
 8. Detected deviations are explicitly presented to the user before any plan modification.
 9. Plan updates are applied only for deviations the user explicitly accepted.
 10. If manual edits materially change implementation intent, the plan (and resolution alignment note) is updated only after user confirmation.
-11. Reusable planning learnings are persisted to `/memories/repo/ticket-skill-learnings.md`.
+11. Reusable planning learnings are persisted to `doc/ai-implementer-memory/ticket-skill-learnings.md`.
 
 ## Important Rules
 

@@ -35,16 +35,17 @@ If a `FHIR-XXXXX-resolution.md` file was manually edited, run this skill before 
 
 ## Memory Artifact
 
-- Repository memory file: `/memories/repo/ticket-skill-learnings.md`
+- Outer repository memory file: `doc/ai-implementer-memory/ticket-skill-learnings.md`
 - Purpose: retain recurring quality findings, strong recommendation patterns, and reusable review heuristics.
+- Read and update this file relative to the outer AI-implementer repository root, regardless of the selected IG fork worktree.
 
 ## Workflow
 
 ### Step 0: Load Ticket Learnings Memory
 
-1. Read `/memories/repo/ticket-skill-learnings.md` if present.
+1. Read `doc/ai-implementer-memory/ticket-skill-learnings.md` from the outer repository root if it exists.
 2. Reuse relevant prior quality heuristics and known pitfalls.
-3. If missing, continue and create/update it at the end of the run.
+3. If missing, create it under the outer repository's `doc/ai-implementer-memory/` directory at the end of the run.
 
 ### Step 0.1: Enforce Active Ticket Location
 
@@ -117,7 +118,7 @@ Ensure recommendation quality:
 
 ### Step 7: Persist Reusable Learnings to Memory (Required)
 
-Append concise bullets to `/memories/repo/ticket-skill-learnings.md` with:
+Append concise bullets to `doc/ai-implementer-memory/ticket-skill-learnings.md` with:
 
 1. Common quality failures observed.
 2. Preferred fixes that consistently improved resolution quality.

@@ -27,68 +27,80 @@ The ticket says that the guide appears to add requirements to the actor labeled 
 ## Implementation Status
 **Ticket state:** Waiting for Input; resolution is Unresolved.
 
-**Ticket-linked implementation evidence:** The supplied ticket file contains no comments, PR links, commit hashes, or related implementation links. The snapshot commit recorded below identifies the source inspected for this proposal; it is not evidence that a ticket-linked implementation or deployment exists.
+**Ticket-linked implementation evidence:** The supplied ticket file contains no comments, PR links, commit hashes, or related implementation links. The authorization branch has an open, branch-wide implementation PR (#99), but neither the ticket file nor the PR body explicitly links FHIR-56616. Local commit `06f6360` contains the CORS removal but is not in the live PR head. These are implementation evidence only, not evidence that Jira has formally applied or resolved the ticket.
 
 ## Ballot Branch Source Evidence
 **Logical branch:** `ballot-recon-authorization` (`eu-health-data-api-ballot-recon-auth`)
 
-**Inspected source snapshot:** `019276d397944036d1e502a2acddb3d5e56e158c`, dated 2026-10-08; the ballot worktree was clean.
+**Inspected source snapshot:** `06f63608d7f01f5e96dc33835308f0567755f24b`, dated 2026-10-22. This is the authorization-fork HEAD and includes commit `06f6360` removing the IG-authored CORS requirements. The worktree has unrelated modifications in `FHIR-eu-health-data-api.xml`, `input/includes/auth-todo.md`, and `input/includes/proposed-ticket-resolutions.md`, and untracked local memory documentation; these are outside this ticket's authorization source changes.
 
-- [Authorization source](../../../eu-health-data-api-ballot-recon-auth/input/pagecontent/authorization.md) selects IUA or SMART by environment and use case. It states that SMART Backend Services requirements apply to that separate pre-authorized server-to-server flow; the IUA section instead points to applicable IUA requirements and separates core IUA from MHD integration and additional recommendations. Browser-based IUA deployments have an explicit IG CORS-policy requirement, and applicable IUA transaction scopes are conditional on supported transactions. These are scoped IG/deployment requirements, not SMART Backend Services requirements imposed on the IUA role.
-- [Actors page source](../../../eu-health-data-api-ballot-recon-auth/input/pagecontent/actors.md) groups Document Publisher, Document Consumer, and Resource Consumer with the selected IUA Authorization Client, SMART App, or SMART Backend Service. Provider actors use the selected IUA or SMART resource-server role; the Authorization Server is independent.
-- [ActorDefinition source](../../../eu-health-data-api-ballot-recon-auth/input/fsh/Actors.fsh) defines separate IUA Authorization Client, Authorization Server, and Resource Server actors; separate SMART App and SMART Backend Service actors; generic EU authorization roles that do not themselves claim either protocol; and the Document Publisher, Document Access Provider, Document Consumer, Grouped Document Publisher/Access Provider, Resource Access Provider, and Resource Consumer composites. It does not define a SMART-constrained IUA Authorization Client ActorDefinition. The separately defined SMART Backend Service is not an IUA profile. One narrow grouping difference remains: `actors.md` lists SMART App as a Document Publisher option, while the FSH Document Publisher description names the IUA Authorization Client or SMART Backend Service but omits SMART App; this does not establish a SMART overlay on IUA.
+- [Authorization source](../../../eu-health-data-api-ballot-recon-auth/input/pagecontent/authorization.md) selects one authorization profile per concrete endpoint, does not claim same-endpoint IUA/SMART dual support, and treats SMART Backend Services as a separate pre-authorized server-to-server flow. It now states that IUA MHD transaction scopes apply only to supported ITI-65 through ITI-68 transactions whose MHD actors are grouped with IUA. It states that core IUA defines no API-specific scope vocabulary. The former IG-authored browser-IUA CORS requirement and SMART CORS narrative have been removed.
+- [Actors page source](../../../eu-health-data-api-ballot-recon-auth/input/pagecontent/actors.md) distinguishes the generic Health Data API Authorization Client from protocol-specific roles. Composite clients select the IUA Authorization Client, SMART App, or SMART Backend Service according to environment and use case; the Authorization Server remains an independent participant. Provider actors use the selected IUA or SMART resource-server role.
+- [ActorDefinition source](../../../eu-health-data-api-ballot-recon-auth/input/fsh/Actors.fsh) defines a protocol-neutral Health Data API Authorization Client that expressly does not claim IUA or SMART conformance, and a separate IHE IUA Authorization Client whose description says it implements applicable IUA transactions. SMART App, SMART Backend Service, and SMART server actors are separate. There is no separate browser-IUA ActorDefinition; the IG-authored browser CORS SHALL that prompted this concern has been removed.
+- A separate source consistency issue remains: `actors.md` lists SMART App as a Document Publisher option, while the FSH Document Publisher description names the IUA Authorization Client or SMART Backend Service and omits SMART App. This is not evidence of additional requirements imposed on the IUA Authorization Client and is outside the specific actor concern.
 
-The public current-build pages cited in earlier drafts are publication context only. They are not used as evidence for this commit-pinned ballot snapshot.
+**PR state verified 2026-10-22 with `gh`:** [PR #99 — Eu health data api ballot recon authorization](https://github.com/euridice-org/eu-health-data-api/pull/99) remains **Open**, not merged or closed. Its head remains `c0e4af73c30331136bf3df722e988cfd3cc48d38`. Local HEAD is three commits ahead of that PR head, including `06f6360` (the CORS-removal commit); therefore the CORS removal is present in the local branch but is **not yet in the live PR**. The PR body describes authorization-related IG changes generally and does not name FHIR-56616. PR comments were checked; none provides a ticket-specific resolution or links FHIR-56616. The PR head is an ancestor of the current local HEAD. Do not represent PR #99 as containing the latest CORS-removal commit or as formal Jira resolution evidence.
+`gh pr checks 99` reported no checks for the branch at verification time.
+
+## Current Build References
+- [Authorization — IHE IUA](https://build.fhir.org/ig/euridice-org/eu-health-data-api/branches/eu-health-data-api-ballot-recon-auth/en/authorization.html#ihe-iua) — PR-branch build preview; relevant to the IUA actor, applicable transactions, and distinction between core IUA and IG integration.
+- [Authorization — Environment-Specific Requirements](https://build.fhir.org/ig/euridice-org/eu-health-data-api/branches/eu-health-data-api-ballot-recon-auth/en/authorization.html#environment-specific-requirements) — PR-branch build preview; relevant to the selection of one profile per endpoint and conditional IUA/MHD transaction-scope integration. This live preview follows PR #99's older head and does not show the unpushed CORS-removal commit.
+- [Actors — Authentication And Authorization Groupings](https://build.fhir.org/ig/euridice-org/eu-health-data-api/branches/eu-health-data-api-ballot-recon-auth/en/actors.html#authentication-and-authorization-groupings) — PR-branch build preview; relevant to the generic client role and protocol-specific actor groupings.
+
+The preview is tied to the open PR branch and does not include the three local commits after its head. The disposition analysis is based on the dated local source snapshot and verified PR state, not on a claim that this preview is merged or reflects the latest local source. The local IG build completed on 2026-10-22 with SUSHI 0 errors/0 warnings and Publisher QA 0 errors/12 warnings/45 info/0 broken links; HTML validation reported 2,314 pages, 0 invalid XHTML pages, and 64,219 links with 0 broken links. The Publisher emitted a nonfatal combined-package diagnostic and duplicate-artifact-name warning, then completed the final ZIP and QA generation.
 
 ## Related Tickets
 No related ticket keys are provided in the source ticket.
 
 ## Disposition Analysis
-The ticket is **Pending** because it remains Waiting for Input and Unresolved, with no ticket comments or linked implementation evidence.
+The ticket remains **Pending**: Jira is Waiting for Input and Unresolved, and the supplied ticket record has no comments or direct PR/commit link. PR #99 is open and contains earlier authorization/actor changes, but it does not include local commit `06f6360`; neither the PR nor the local commit establishes formal Jira resolution.
 
-The commit-pinned ballot source does **not** impose SMART Backend Services requirements on the IUA Authorization Client. It selects protocol roles by environment/use case, defines the IUA and SMART roles separately, and gives SMART Backend Services its own actor and flow. The ticket's premise is therefore **not confirmed on the basis used in the prior resolution**.
+The current source distinguishes the generic Health Data API Authorization Client from the IHE IUA Authorization Client and separate SMART actors. SMART Backend Services requirements are assigned to their separate role and flow, not to the IUA role. The only identified IG-authored browser-IUA CORS SHALL has now been removed. Remaining IUA MHD transaction-scope guidance is conditional on supported MHD transactions and grouped actors; it is integration-specific, not a blanket change to the IHE IUA Authorization Client definition. The source therefore no longer identifies a browser-specific extra conformance obligation that would require a new actor.
 
-The source does contain IG-level conditions associated with IUA deployments, including CORS policy for browser-based IUA clients and transaction-specific MHD scopes. The inspected files do not establish that these conditions redefine the IUA Authorization Client beyond its standard role; they are described as deployment/integration requirements or as separate from core IUA. A workgroup decision should identify any exact requirement alleged to exceed IUA before applying the ticket's conditional SHALL. No ticket-linked PR or commit evidence is recorded, and the Jira item remains unresolved.
+The most supportable workgroup response is to accept the concern with a modification: remove the extra IG-authored browser CORS requirement and retain the generic Health Data API role separately from the standard IHE IUA Authorization Client. The ticket does not identify another specific requirement that exceeds the IUA actor definition. If the workgroup identifies one, it should assess that requirement independently and define a distinct actor only if it is genuinely actor-level. The broader open PR and local source commit are implementation evidence only; FHIR-56616 remains unresolved in Jira.
 
 ## Proposed Dispositions
 ### Disposition A: Accept As Requested
 #### Proposal
-Define a distinct EU IG-profiled IUA Authorization Client actor only if the workgroup identifies normative requirements that exceed the IUA Authorization Client role and apply to that client as an actor. Name those requirements and distinguish them from environment-specific SMART flows, browser CORS policy, and MHD transaction integration. Do not characterize this as a SMART Backend Services profile.
+Define an IG-specific IUA Authorization Client actor based on the IHE role, with explicit conditional obligations for the IUA/MHD integration, and group that actor with the applicable publisher/consumer roles. Keep SMART Backend Services separate.
 
 #### Justification
-This satisfies the ticket's conditional SHALL if additional actor-level IUA constraints are demonstrated. The current source does not establish that condition from SMART Backend Services; adding an actor without identifying the specific extra IUA requirements risks encoding a distinction the source does not make.
+This is the direct response if the workgroup concludes the conditional MHD scope requirements constitute extra actor-level constraints beyond the standard IUA Authorization Client definition. It would make that scope of conformance explicit, but risks creating a new actor for conditions already defined by the IUA/MHD integration. It is not recommended absent an identified remaining actor-level requirement after CORS removal.
 
 ### Disposition B: Alternative Approach
 #### Proposal
-Do not add another IUA client ActorDefinition on the evidence currently available. Preserve the separate IUA and SMART actor definitions and clarify that selected SMART Backend Services requirements do not apply to IUA mode. Identify deployment-scoped IUA-related requirements (including browser CORS and applicable transaction integration) as such, and state that any proposal to create a constrained IUA actor must cite the specific requirement that exceeds the IUA role.
+Remove the IG-authored browser-IUA CORS requirement rather than creating a new IUA-derived actor solely to carry it. Retain the generic Health Data API Authorization Client separately from the standard IHE IUA Authorization Client and SMART actors. Keep IUA MHD transaction scopes conditional on supported transactions whose MHD actors are grouped with IUA. Define an additional actor only if the workgroup identifies a distinct, remaining actor-level obligation beyond the applicable IUA and integration requirements.
 
 #### Justification
-This matches the ballot source's separation of IUA and SMART roles and resolves the apparent SMART conflation with a precise scope statement. It avoids an unsupported new actor while leaving the workgroup able to adopt A if it identifies a concrete IUA-specific overconstraint.
+This matches the current source after the CORS removal: the generic role is distinct from protocol roles, SMART Backend Services remains separate, and MHD transaction scopes apply only to corresponding supported integrations. It addresses the identified source of ambiguity without creating an actor that has no remaining, defined extra conformance scope. Option A remains available if the workgroup identifies another specific actor-level obligation.
 
 ### Disposition C: Decline
 #### Proposal
-Make no actor-model or explanatory change. Retain the ballot source's current separation of IUA and SMART roles and its environment-specific selection of authorization flows.
+Make no further actor-model or explanatory change. Retain the current actor definitions and authorization text without adopting the proposed explanatory resolution of the ticket concern.
 
 #### Justification
-The branch already defines a distinct IUA Authorization Client and separate SMART actors, and does not apply SMART Backend Services requirements to IUA mode. Declining may be reasonable if the workgroup finds the existing scope distinctions sufficient, but it leaves the ticket's concern about possible additional IUA constraints without an explicit determination.
+The current source separates the generic client, IHE IUA client, and SMART roles, and the identified browser-IUA CORS SHALL has been removed. Declining would avoid further change, but would not record why that additional requirement was removed in response to the concern or provide the workgroup an explicit disposition for the conditional request.
 
 ### Recommendation
 **Recommended disposition:** B
 
-The ballot snapshot does not support the former rationale for A: SMART Backend Services is a separate role and selected flow, not an override of the IUA Authorization Client. B best fits the evidence by retaining distinct IUA and SMART actors while requiring any claimed IUA overconstraint to be named and assessed. A remains appropriate only if the workgroup identifies a normative IUA-client requirement beyond the standard role; C is less useful because it would leave that question unexamined. This recommendation is based on the cited authoring snapshot, not on public current-build pages or ticket-linked implementation evidence.
+The current local source supports B because it removes the identified IG-authored browser CORS SHALL, keeps the generic API client distinct from the IHE IUA actor, and limits MHD transaction scopes to supported grouped MHD/IUA transactions. This resolves the identified ambiguity without inventing a new actor whose remaining conformance scope is unspecified. A should be selected if the workgroup identifies another concrete actor-level requirement beyond the applicable IUA and integration rules; C would leave the ticket's concern without an explicit explanation. This recommendation is based on local source snapshot `06f6360` and the verified open PR state; the PR head predates the CORS-removal commit, and Jira remains unresolved.
 
 ## Next Steps
-- Workgroup to identify the exact normative provision alleged to exceed the standard IUA Authorization Client role and determine whether it constrains the actor or only a selected deployment/transaction.
-- If such an actor-level IUA constraint is confirmed, adopt A and define the distinct actor with that bounded conformance scope; do not use SMART Backend Services requirements as its rationale.
-- Record any implementing PR or commit in the Jira ticket before classifying this item as implemented; the inspected ballot snapshot commit is source-baseline identification only.
+- Workgroup to confirm the modified resolution: remove the identified IG-authored browser CORS obligation and retain the standard IHE IUA actor with conditional MHD integration scope guidance.
+- If the workgroup identifies another specific actor-level constraint beyond applicable IUA and integration requirements, assess it independently and define a distinct actor only if needed to express that additional conformance target.
+- Reconcile the Document Publisher actor options between `actors.md` and `Actors.fsh`.
+- Push/refresh PR #99 with local commit `06f6360` if that is intended to be included in the authorization PR; do not treat the current PR head as containing the CORS removal.
+- Record relevant PR/commit evidence in the Jira ticket if the workgroup accepts the implementation; do not treat the open PR or local commit as formal Jira resolution.
 
 ## Verification Checklist
 - [x] Ticket metadata, description, and all available ticket content reviewed; no comments or implementation links are present in the supplied file.
-- [x] Only the three named files in the ballot worktree were inspected as specification source.
-- [x] Commit, snapshot date, clean worktree, and local links to the inspected branch sources are recorded.
-- [x] Ballot source separates IUA roles from SMART Backend Services and identifies the actual generic and composite actor groupings.
-- [x] Snapshot commit is distinguished from ticket-linked implementation evidence; Jira remains Waiting for Input and Unresolved.
-- [x] Public current-build pages are treated as publication context only, not evidence for the ballot snapshot.
-- [x] Deployment-scoped IUA-related conditions are distinguished from SMART Backend Services requirements.
+- [x] Relevant source files, current source revision, local source status, and PR head relationship are recorded; the CORS-removal commit is explicitly identified as local-only relative to PR #99.
+- [x] Current PR state and checks were verified with `gh`; the open PR is not represented as merged or ticket-linked.
+- [x] Current-build references are included and distinguished from ballot-branch evidence.
+- [x] Source distinguishes the generic client, IUA actor, and SMART actors; conditional MHD transaction integration is separately identified.
+- [x] The identified IG-authored browser-IUA CORS requirement is verified removed from current input source.
+- [x] Jira remains Waiting for Input and Unresolved; local implementation and PR status are not represented as a formal ticket resolution.
+- [x] The remaining Document Publisher actor-description mismatch is recorded.
 - [x] Dispositions A/B/C are concrete and meaningfully distinct.
 - [x] Recommendation is explicit and justified against the alternatives.

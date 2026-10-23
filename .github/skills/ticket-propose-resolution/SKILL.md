@@ -35,16 +35,17 @@ This skill analyzes ticket metadata, description, comments, and linked implement
 
 ## Memory Artifact
 
-- Repository memory file: `/memories/repo/ticket-skill-learnings.md`
+- Outer repository memory file: `doc/ai-implementer-memory/ticket-skill-learnings.md`
 - Purpose: store reusable patterns, preferred solution approaches, and best practices discovered while resolving tickets.
+- Read and update this file relative to the outer AI-implementer repository root, regardless of the selected IG fork worktree.
 
 ## Workflow
 
 ### Step 0: Load Ticket Learnings Memory
 
-1. Read `/memories/repo/ticket-skill-learnings.md` if it exists.
+1. Read `doc/ai-implementer-memory/ticket-skill-learnings.md` from the outer repository root if it exists.
 2. Reuse relevant prior patterns (for example, common disposition rationale, evidence phrasing, and known decision heuristics).
-3. If the file does not exist, continue and create/update it at the end of execution.
+3. If the file does not exist, create it under the outer repository's `doc/ai-implementer-memory/` directory at the end of execution.
 
 ### Step 0.1: Enforce Active Ticket Location
 
@@ -199,7 +200,7 @@ The proposal is not complete until this quality gate is run.
 
 ### Step 8: Persist Reusable Learnings to Memory (Required)
 
-Append concise bullets to `/memories/repo/ticket-skill-learnings.md` covering:
+Append concise bullets to `doc/ai-implementer-memory/ticket-skill-learnings.md` covering:
 
 1. Repeated ticket patterns discovered.
 2. Preferred solution/disposition approaches that worked well.
@@ -218,7 +219,7 @@ The proposal is complete only if all are true:
 4. Recommendation is explicit and justified.
 5. Evidence claims are traceable to ticket content.
 6. `ticket-resolution-quality-check` has been run and its findings are addressed.
-7. Reusable learnings have been persisted to `/memories/repo/ticket-skill-learnings.md`.
+7. Reusable learnings have been persisted to `doc/ai-implementer-memory/ticket-skill-learnings.md`.
 8. `Current Build References` section exists and contains links for impacted/relevant sections (or an explicit mapping-gap note).
 
 ## Important Rules
